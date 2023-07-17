@@ -1,5 +1,3 @@
-import org.gradle.api.internal.artifacts.dsl.dependencies.DependenciesExtensionModule.module
-
 plugins {
     kotlin("jvm") version "1.9.0"
     id("com.github.johnrengelman.shadow") version "7.1.2"

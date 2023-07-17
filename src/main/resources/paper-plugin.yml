@@ -1,4 +1,4 @@
 name: container-passthrough-neo
 version: '${version}'
-main: eu.mvojacek.paper.containerpassthrough.ContainerPasthroughNeo
+main: eu.mvojacek.paper.contpassneo.ContainerPassthroughNeo
 api-version: '1.20'
