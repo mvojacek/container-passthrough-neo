@@ -1,0 +1,4 @@
+name: container-passthrough-neo
+version: '${version}'
+main: eu.mvojacek.paper.containerpassthrough.ContainerPasthroughNeo
+api-version: '1.20'
