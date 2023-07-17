@@ -65,7 +65,7 @@ class ContainerPassthroughNeo : JavaPlugin(), Listener {
         // all checks passed, do player raycast to find the possible container
 
         // raycast, return if nothing hit
-        val result = event.player.rayTraceBlocks(5.0, FluidCollisionMode.NEVER) ?: return
+        val result = event.player.rayTraceBlocks(config.raycastDistanceBlocks, FluidCollisionMode.NEVER) ?: return
         val hitBlock = result.hitBlock ?: return
 
         // try for enderchest at this location
@@ -158,7 +158,9 @@ class ContainerPassthroughNeo : JavaPlugin(), Listener {
 
     // Opens player enderchest if the clock is an enderchest and returns true. Returns false otherwise.
     private fun tryOpeningEnderchest(player: Player, block: Block): Boolean {
+        if (!config.allowEnderChest) return false
         if (block.type != Material.ENDER_CHEST) return false
+
         if (player.openInventory.topInventory != player.enderChest) {
             player.openInventory(player.enderChest)
 
@@ -174,6 +176,7 @@ class ContainerPassthroughNeo : JavaPlugin(), Listener {
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     private fun onInventoryClosed(event: InventoryCloseEvent) {
+        if (!config.allowEnderChest) return
         if (!config.enderChestTracking) return
 
         if (event.inventory == event.player.enderChest) {
@@ -204,8 +207,7 @@ private class EnderChestOpeningTracker {
         // decrease this enderchest's counter, if it reaches 0 or less, remove from map and return 0
         val nowOpened = enderChestOpenings.compute(enderChest) { _, count ->
             val newCount = (count ?: 0) - 1
-            if (newCount <= 0) return@compute null
-            newCount
+            if (newCount > 0) newCount else null
         } ?: 0
         // if opened count is now 0, close enderchest
         if (nowOpened == 0 && enderChest.isOpen)

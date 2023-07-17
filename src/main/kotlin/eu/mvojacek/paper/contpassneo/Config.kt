@@ -28,8 +28,9 @@ class Config(
     var allowEnderChest by configBool("allow_enderchest", true)
 
     var enderChestTracking by configBool("debug.track_opened_enderchests_for_animation", true)
-}
 
+    var raycastDistanceBlocks by configDouble("debug.raycast_distance_blocks", 5.0)
+}
 
 open class ConfigBase(
     val fileConfiguration: FileConfiguration
@@ -40,9 +41,17 @@ open class ConfigBase(
         fileConfiguration.addDefaults(defaultsMap)
     }
 
-    @Suppress("SameParameterValue")
+    @Suppress("SameParameterValue", "unused")
     protected fun configBool(key: String, default: Boolean? = null) =
         cachedConfig(key, default) { getBoolean(key) }
+
+    @Suppress("SameParameterValue", "unused")
+    protected fun configInt(key: String, default: Int? = null) =
+        cachedConfig(key, default) { getInt(key) }
+
+    @Suppress("SameParameterValue", "unused")
+    protected fun configDouble(key: String, default: Double? = null) =
+        cachedConfig(key, default) { getDouble(key) }
 
     private fun <T> cachedConfig(
         key: String,
