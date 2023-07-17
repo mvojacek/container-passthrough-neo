@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "eu.mvojacek.paper"
-version = "1.0"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
